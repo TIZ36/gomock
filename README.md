@@ -1,0 +1,29 @@
+# gocodes
+
+- config
+- doc
+  - http
+    - interface.md
+- api
+  - config
+    - xx.yaml
+  - types
+    - utility1.go
+    - utility2.go
+  - model
+    - mysql
+      - xxx.sql
+      - repo.go
+      - xx1.go
+      - xx2.go
+  - lib
+    - common/
+      - util/
+    - logic/
+    - svr/
+    - middleware/ 
+    - router.go @for router
+    - main.go @start
+- rpc
+  - config
+  - lib
