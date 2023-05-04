@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/allegro/bigcache/v3"
+	"github.com/bwmarrin/snowflake"
 	"github.com/go-resty/resty/v2"
 	"github.com/redis/go-redis/v9"
 	"gomock/api/lib/config"
@@ -18,6 +19,7 @@ type AppContext struct {
 	HttpClient    *resty.Client
 	InMemoryCache *bigcache.BigCache
 	RedisClient   *redis.Client
+	IdGen         *snowflake.Node
 }
 
 var (
@@ -28,6 +30,7 @@ var (
 func NewAppContext(config config.Config) {
 	setUpMysql(config)
 	setUpCache()
+	setUpIdGen()
 	//setUpRedis()
 	return
 }
@@ -53,6 +56,17 @@ func setUpCache() {
 	}
 
 	AppCtx.InMemoryCache = cache
+}
+
+func setUpIdGen() {
+	// todo
+	node, err := snowflake.NewNode(1)
+
+	if err != nil {
+		return
+	}
+
+	AppCtx.IdGen = node
 }
 
 func (ctx *AppContext) DestroyAppCtx() {

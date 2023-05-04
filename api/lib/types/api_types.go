@@ -240,3 +240,13 @@ type (
 	}
 	GetGroupUsersResp []GroupUser
 )
+
+type (
+	NewKingdomReq struct {
+		KingdomName      string `form:"kingdom_name"`
+		KingdomAvatarUrl string `form:"kingdom_avatar_url"`
+	}
+	NewKingdomResp struct {
+		KingdomId int64 `json:"kingdom_id"`
+	}
+)

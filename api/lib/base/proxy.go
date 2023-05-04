@@ -5,18 +5,19 @@ import (
 	"fmt"
 )
 
-type Service struct {
+type Service[T any] struct {
 	funcMap map[string]func()
 }
 
-type ProxyService struct {
+type ProxyService[T any] struct {
 	Cache  Cache
-	Method func() (any, error)
+	Method func() (T, error)
 }
 
 type Cache struct {
 	Enable   bool
 	Cache    CommonCache[string, []byte]
+	Cascade  any
 	QueryKey string
 	label    string
 	k        string
@@ -26,13 +27,13 @@ type Cache struct {
 type ServiceContext struct {
 }
 
-func (service *Service) Proxy(f func() (any, error)) *ProxyService {
-	return &ProxyService{
+func (service *Service[T]) Proxy(f func() (T, error)) *ProxyService[T] {
+	return &ProxyService[T]{
 		Method: f,
 	}
 }
 
-func (proxyService *ProxyService) Cached(keyCompos ...string) *ProxyService {
+func (proxyService *ProxyService[T]) Cached(keyCompos ...string) *ProxyService[T] {
 	apiKey := buildKey(proxyService.Cache.label, proxyService.Cache.k)
 
 	keyCompos = append(keyCompos, apiKey)
@@ -45,21 +46,28 @@ func (proxyService *ProxyService) Cached(keyCompos ...string) *ProxyService {
 	return proxyService
 }
 
-func (proxyService *ProxyService) CancelCached(keyCompos ...string) *ProxyService {
+func (proxyService *ProxyService[T]) CancelCached(keyCompos ...string) *ProxyService[T] {
 	proxyService.Cache.Enable = false
 	return proxyService
 }
 
-func (proxyService *ProxyService) Exec() (any, error) {
+func (proxyService *ProxyService[T]) Exec() (*T, error) {
 	var reBin []byte
+	var re T
 	if proxyService.Cache.Enable {
-		reBin, _ := proxyService.Cache.Cache.Get(proxyService.Cache.QueryKey)
+		reAny, err := proxyService.Cache.Cache.Get(proxyService.Cache.QueryKey)
 
-		if reBin != nil {
-			return reBin, nil
+		if err == nil {
+			reBin, _ := reAny.([]byte)
+
+			json.Unmarshal(reBin, &re)
+
+			return &re, nil
 		}
+
 	}
 
+	// 真正执行
 	re, err := proxyService.Method()
 
 	if proxyService.Cache.Enable {
@@ -71,7 +79,7 @@ func (proxyService *ProxyService) Exec() (any, error) {
 		return nil, err
 	}
 
-	return reBin, nil
+	return &re, nil
 }
 
 func buildKey(compo ...string) string {
@@ -82,4 +90,10 @@ func buildKey(compo ...string) string {
 	}
 
 	return k[:len(k)-1]
+}
+
+func (proxyService *ProxyService[T]) DoCascade(reBin []byte) (*T, error) {
+	var re T
+	_ = json.Unmarshal(reBin, &re)
+	return &re, nil
 }

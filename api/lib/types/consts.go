@@ -1,5 +1,5 @@
 package types
 
 const (
-	DefaultConfigFilePath = "./config/dev.yaml"
+	DefaultConfigFilePath = "../config/dev.yaml"
 )

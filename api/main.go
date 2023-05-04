@@ -10,11 +10,12 @@ import (
 	"gomock/api/lib/config"
 	"gomock/api/lib/ctx"
 	"gomock/api/lib/middleware"
+	"gomock/api/lib/types"
 	"gopkg.in/yaml.v3"
 	"os"
 )
 
-const configFile = "../config/dev.yaml"
+const configFile = types.DefaultConfigFilePath
 
 func main() {
 
@@ -33,6 +34,7 @@ func main() {
 
 	// define router
 	r.GET("/chat", lib.GetRouter)
+	r.POST("/newKingdom", lib.NewKingdom)
 
 	// set up logger
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix

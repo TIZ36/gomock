@@ -36,3 +36,7 @@ func GetRouter(c *gin.Context) {
 		return
 	}
 }
+
+func NewKingdom(c *gin.Context) {
+	logic.NewKingdom(c)
+}
