@@ -1,9 +1,9 @@
-package logic
+package handler
 
 import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/gin-gonic/gin"
-	"gomock/app/lib/svr"
+	"gomock/app/internal/svr"
 	types2 "gomock/types"
 	"net/http"
 	"strconv"

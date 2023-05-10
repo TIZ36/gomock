@@ -1,8 +1,8 @@
-package lib
+package http
 
 import (
 	"github.com/gin-gonic/gin"
-	"gomock/app/lib/logic"
+	logic2 "gomock/app/internal/http/handler"
 	"gomock/types"
 	"net/http"
 )
@@ -13,24 +13,24 @@ func GetRouter(c *gin.Context) {
 	switch t {
 	// -- users -- /
 	case "user.basicinfo":
-		logic.GetUserBasicInfo(c)
+		logic2.GetUserBasicInfo(c)
 	case "user.info":
-		logic.GetUserInfo(c)
+		logic2.GetUserInfo(c)
 	case "user.batchInfo":
-		logic.GetUserBatchInfo(c)
+		logic2.GetUserBatchInfo(c)
 	case "user.groups":
-		logic.GetUserGroups(c)
+		logic2.GetUserGroups(c)
 	case "user.friends":
-		logic.GetUserFriends(c)
+		logic2.GetUserFriends(c)
 	case "user.blacklist":
-		logic.GetUserBlackList(c)
+		logic2.GetUserBlackList(c)
 	case "user.friendReqs":
-		logic.GetUserFriendReqs(c)
+		logic2.GetUserFriendReqs(c)
 		// -- groups -- /
 	case "group.info":
-		logic.GetGroupInfo(c)
+		logic2.GetGroupInfo(c)
 	case "group.config":
-		logic.GetGroupConfig(c)
+		logic2.GetGroupConfig(c)
 	default:
 		c.JSON(http.StatusNotFound, types.CodeParamErr)
 		return
@@ -38,5 +38,5 @@ func GetRouter(c *gin.Context) {
 }
 
 func NewKingdom(c *gin.Context) {
-	logic.NewKingdom(c)
+	logic2.NewKingdom(c)
 }

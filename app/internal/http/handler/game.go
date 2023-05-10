@@ -1,9 +1,9 @@
-package logic
+package handler
 
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
-	"gomock/app/lib/svr"
+	"gomock/app/internal/svr"
 	types2 "gomock/types"
 )
 

@@ -1,4 +1,4 @@
-package ctx
+package base
 
 import (
 	"context"
@@ -8,7 +8,6 @@ import (
 	"github.com/bwmarrin/snowflake"
 	"github.com/go-resty/resty/v2"
 	"github.com/redis/go-redis/v9"
-	"gomock/app/lib/config"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -27,7 +26,7 @@ var (
 	AppCtx            = &AppContext{}
 )
 
-func NewAppContext(config config.Config) {
+func NewAppContext(config Config) {
 	setUpMysql(config)
 	setUpCache()
 	setUpIdGen()
@@ -35,7 +34,7 @@ func NewAppContext(config config.Config) {
 	return
 }
 
-func setUpMysql(config config.Config) {
+func setUpMysql(config Config) {
 	db, err := sql.Open("mysql", config.Mysql.Dsn)
 
 	if err != nil {

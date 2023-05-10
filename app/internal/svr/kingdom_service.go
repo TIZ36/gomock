@@ -2,7 +2,7 @@ package svr
 
 import (
 	"fmt"
-	"gomock/base"
+	"gomock/app/base"
 	"gomock/types"
 )
 

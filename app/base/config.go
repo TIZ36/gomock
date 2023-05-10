@@ -1,4 +1,4 @@
-package config
+package base
 
 type Config struct {
 	Mysql struct {

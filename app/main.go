@@ -6,10 +6,9 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/rs/zerolog/pkgerrors"
-	"gomock/app/lib"
-	"gomock/app/lib/config"
-	"gomock/app/lib/ctx"
-	"gomock/app/lib/middleware"
+	"gomock/app/base"
+	"gomock/app/internal/http"
+	"gomock/app/internal/http/middleware"
 	"gomock/types"
 	"gopkg.in/yaml.v3"
 	"os"
@@ -29,12 +28,12 @@ func main() {
 	log.Info().Msg(fmt.Sprintf("config is %v", cfg))
 
 	// initialize app context
-	ctx.NewAppContext(cfg)
-	defer ctx.AppCtx.DestroyAppCtx()
+	base.NewAppContext(cfg)
+	defer base.AppCtx.DestroyAppCtx()
 
 	// define router
-	r.GET("/chat", lib.GetRouter)
-	r.POST("/newKingdom", lib.NewKingdom)
+	r.GET("/chat", http.GetRouter)
+	r.POST("/newKingdom", http.NewKingdom)
 
 	// set up logger
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
@@ -50,7 +49,7 @@ func main() {
 	fmt.Println("hhh")
 }
 
-func loadConfig(path string) config.Config {
+func loadConfig(path string) base.Config {
 	data, err := os.ReadFile(path)
 
 	if err != nil {
@@ -58,7 +57,7 @@ func loadConfig(path string) config.Config {
 		panic(err)
 	}
 
-	var cfg config.Config
+	var cfg base.Config
 
 	err = yaml.Unmarshal(data, &cfg)
 

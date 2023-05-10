@@ -2,14 +2,14 @@ package svr
 
 import (
 	"github.com/rs/zerolog/log"
-	"gomock/base"
-	"gomock/model/mysql"
+	"gomock/app/base"
+	mysql2 "gomock/app/internal/model/mysql"
 	"gomock/types"
 )
 
 func NewUserBasicInfo(uid int64, curStage int32, maincityLevel int32) error {
 
-	return mysql.UBIR.InsertBasicInfo(mysql.BasicInfo{
+	return mysql2.UBIR.InsertBasicInfo(mysql2.BasicInfo{
 		Uid:           uid,
 		CurStage:      curStage,
 		MaincityLevel: maincityLevel,
@@ -17,10 +17,10 @@ func NewUserBasicInfo(uid int64, curStage int32, maincityLevel int32) error {
 }
 
 func GetUserBasicInfo(uid int64) (*types.UserBasicInfo, error) {
-	userBasicInfoSvc := &base.Service[mysql.BasicInfo]{}
+	userBasicInfoSvc := &base.Service[mysql2.BasicInfo]{}
 
-	userBasicInfo, err := userBasicInfoSvc.Proxy(func() (mysql.BasicInfo, error) {
-		re, err := mysql.UBIR.FindBasicInfoByUid(uid)
+	userBasicInfo, err := userBasicInfoSvc.Proxy(func() (mysql2.BasicInfo, error) {
+		re, err := mysql2.UBIR.FindBasicInfoByUid(uid)
 
 		return re, err
 	}).Exec()
@@ -38,14 +38,14 @@ func GetUserBasicInfo(uid int64) (*types.UserBasicInfo, error) {
 
 func GetUserInfo(uid int64, lang string) (*types.UserInfo, error) {
 
-	userInfoSvc := &base.Service[mysql.UserInfo]{}
+	userInfoSvc := &base.Service[mysql2.UserInfo]{}
 
 	log.Info().Msg("xxxx")
-	userInfo, err := userInfoSvc.Proxy(func() (mysql.UserInfo, error) {
-		re, err := mysql.UIR.GetUserInfo(uid)
+	userInfo, err := userInfoSvc.Proxy(func() (mysql2.UserInfo, error) {
+		re, err := mysql2.UIR.GetUserInfo(uid)
 
 		if err != nil {
-			return mysql.UserInfo{}, err
+			return mysql2.UserInfo{}, err
 		}
 
 		return re, nil
