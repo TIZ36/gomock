@@ -5,7 +5,7 @@ import (
 )
 
 //
-// 1. 为了避免重复的代码，我们可以把 service.go 中的 Service 结构体和 ProxyService 结构体抽象出来，放到 svr_types.go 中
+// 1. 为了避免重复的代码，我们可以把 service.go 中的 Service 结构体和 ProxyService 结构体抽象出来，放到 svc.go 中
 
 type CommonApiResp[T any] struct {
 	ErrCode

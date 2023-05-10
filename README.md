@@ -22,3 +22,12 @@
     - interface.md
 - README.md // 项目说明
 ```
+
+## types
+> 面向接口的开发，首先对types感觉需要有一些规则
+
+- types
+  - consts.go // 常量定义
+  - err.go // 错误定义
+  - api.go    // 接口类型定义 （http接口）
+  - svc.go    // 服务类型定义 （业务类型 + 数据库model类型，这两个部分感觉没有必要分开，因为业务类型和数据库model类型是一一对应的）
