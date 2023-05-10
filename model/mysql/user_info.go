@@ -1,5 +1,7 @@
 package mysql
 
+import "errors"
+
 const (
 	USER_INFO_TABLE = "info"
 )
@@ -12,6 +14,6 @@ type UserInfo struct {
 
 type UserInfoRepo struct{}
 
-func (userInfoRepo *UserInfoRepo) GetUserInfo(uid int64) (*UserInfo, error) {
-	return nil, nil
+func (userInfoRepo *UserInfoRepo) GetUserInfo(uid int64) (UserInfo, error) {
+	return UserInfo{}, errors.New("todo")
 }

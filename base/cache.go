@@ -3,7 +3,7 @@ package base
 import (
 	"encoding/json"
 	"fmt"
-	"gomock/api/lib/ctx"
+	"gomock/app/lib/ctx"
 )
 
 type DbCache[K any, V *any] interface {

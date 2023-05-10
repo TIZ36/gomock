@@ -2,7 +2,7 @@ package mysql
 
 import (
 	"fmt"
-	"gomock/api/lib/ctx"
+	"gomock/app/lib/ctx"
 )
 
 const (
@@ -19,7 +19,7 @@ type BasicInfo struct {
 type UserBasicInfoRepo struct{}
 
 // FindBasicInfoByUid 通过uid查询用户基本信息 /
-func (basicInfoRepo *UserBasicInfoRepo) FindBasicInfoByUid(uid int64) (*BasicInfo, error) {
+func (basicInfoRepo *UserBasicInfoRepo) FindBasicInfoByUid(uid int64) (BasicInfo, error) {
 	var basicInfo BasicInfo
 	sql := fmt.Sprintf("SELECT * FROM %s WHERE `uid` = %v", TABLE, uid)
 	err := ctx.AppCtx.MysqlClient.QueryRow(sql).Scan(
@@ -30,9 +30,9 @@ func (basicInfoRepo *UserBasicInfoRepo) FindBasicInfoByUid(uid int64) (*BasicInf
 		&basicInfo.UpdateTime)
 
 	if err != nil {
-		return nil, err
+		return basicInfo, err
 	}
-	return &basicInfo, nil
+	return basicInfo, nil
 }
 
 func (basicInfoRepo *UserBasicInfoRepo) InsertBasicInfo(dbBasicInfo BasicInfo) error {

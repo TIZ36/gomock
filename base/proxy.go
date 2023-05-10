@@ -51,7 +51,7 @@ func (proxyService *ProxyService[T]) CancelCached(keyCompos ...string) *ProxySer
 	return proxyService
 }
 
-func (proxyService *ProxyService[T]) Exec() (*T, error) {
+func (proxyService *ProxyService[T]) Exec() (T, error) {
 	var reBin []byte
 	var re T
 	if proxyService.Cache.Enable {
@@ -62,7 +62,7 @@ func (proxyService *ProxyService[T]) Exec() (*T, error) {
 
 			json.Unmarshal(reBin, &re)
 
-			return &re, nil
+			return re, nil
 		}
 
 	}
@@ -76,10 +76,10 @@ func (proxyService *ProxyService[T]) Exec() (*T, error) {
 	}
 
 	if err != nil {
-		return nil, err
+		return re, err
 	}
 
-	return &re, nil
+	return re, nil
 }
 
 func buildKey(compo ...string) string {
